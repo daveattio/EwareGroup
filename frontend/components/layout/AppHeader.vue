@@ -9,45 +9,72 @@ const mobileMenuOpen = ref(false)
 const solutionsMenuOpen = ref(false)
 const ecosystemMenuOpen = ref(false)
 
+// Gestion du sélecteur de filiale
+const currentBranch = ref<'togo' | 'benin'>('togo')
+const showBeninModal = ref(false)
+const countryDropdownOpen = ref(false)
+const countryDropdownRef = ref<HTMLElement | null>(null)
+
+onClickOutside(countryDropdownRef, () => {
+  countryDropdownOpen.value = false
+})
+
+const selectBranch = (branch: 'togo' | 'benin') => {
+  if (branch === 'benin') {
+    showBeninModal.value = true
+    countryDropdownOpen.value = false
+    return
+  }
+  currentBranch.value = branch
+  countryDropdownOpen.value = false
+}
+
 // Fermer le menu mobile lors des changements de page
 const route = useRoute()
 watch(() => route.fullPath, () => {
   mobileMenuOpen.value = false
 })
+
+const isHomePage = computed(() => {
+  const p = route.path.replace(/\/+$/, '')
+  return p === '' || p === '/en' || p === '/fr'
+})
 </script>
 
 <template>
-  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 transition-all">
+  <header
+    class="z-40 transition-all duration-300"
+    :class="[
+      isHomePage
+        ? 'relative -mb-20 bg-slate-950/20 backdrop-blur-xs border-b border-white/10'
+        : 'sticky top-0 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs'
+    ]"
+  >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
         
-        <!-- Logo Eware Group -->
-        <NuxtLink :to="localePath('/')" class="flex items-center space-x-3 shrink-0 group">
-          <div class="w-11 h-11 rounded-xl bg-brand-green-600 flex items-center justify-center shadow-card group-hover:scale-105 transition-transform">
-            <!-- Emblème Énergie Eware en SVG pur -->
-            <svg viewBox="0 0 24 24" fill="none" class="w-6 h-6 text-white stroke-current stroke-2">
-              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </div>
-          <div class="flex flex-col">
-            <span class="text-xl font-extrabold tracking-tight text-slate-900 leading-none">
-              EWARE <span class="text-brand-green-600">GROUP</span>
-            </span>
-            <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-400 mt-1">
-              Transition & Ingénierie
-            </span>
-          </div>
+        <!-- Logo Eware Group Officiel (S'adapte dynamiquement à l'arrière-plan sans boîte artificielle) -->
+        <NuxtLink :to="localePath('/')" class="flex items-center shrink-0 group py-1 mr-4 lg:mr-8">
+          <img
+            :src="isHomePage ? '/logo-eware-dark.png' : '/logo-eware.png'"
+            alt="Eware Group - Transition & Ingénierie"
+            class="h-11 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+          />
         </NuxtLink>
 
         <!-- Desktop Navigation Links (Inter / Plus Jakarta Sans) -->
-        <nav class="hidden lg:flex items-center space-x-8 text-sm font-semibold text-slate-700">
+        <nav
+          class="hidden lg:flex items-center space-x-6 xl:space-x-8 text-sm font-semibold transition-colors"
+          :class="isHomePage ? 'text-slate-200' : 'text-slate-700'"
+        >
           
           <NuxtLink
             :to="localePath('/')"
-            class="hover:text-brand-green-600 transition-colors py-2"
-            active-class="text-brand-green-600 font-bold"
+            class="py-2 transition-colors"
+            :class="isHomePage ? 'hover:text-white' : 'hover:text-brand-green-600'"
+            active-class="text-brand-green-400 font-bold"
           >
-            Accueil
+            {{ $t('nav.home') }}
           </NuxtLink>
 
           <!-- Dropdown Solutions -->
@@ -58,10 +85,18 @@ watch(() => route.fullPath, () => {
           >
             <button
               type="button"
-              class="inline-flex items-center space-x-1 hover:text-brand-green-600 transition-colors py-2 outline-hidden"
+              class="inline-flex items-center space-x-1 py-2 outline-hidden transition-colors"
+              :class="isHomePage ? 'hover:text-white' : 'hover:text-brand-green-600'"
             >
               <span>{{ $t('nav.solutions') }}</span>
-              <Icon name="lucide:chevron-down" class="w-4 h-4 text-slate-400 transition-transform duration-200" :class="{ 'rotate-180': solutionsMenuOpen }" />
+              <Icon
+                name="lucide:chevron-down"
+                class="w-4 h-4 transition-transform duration-200"
+                :class="[
+                  isHomePage ? 'text-slate-400' : 'text-slate-400',
+                  { 'rotate-180': solutionsMenuOpen }
+                ]"
+              />
             </button>
 
             <div
@@ -76,8 +111,8 @@ watch(() => route.fullPath, () => {
                   <Icon name="lucide:sun" class="w-5 h-5 text-brand-gold-500" />
                 </div>
                 <div>
-                  <div class="text-xs font-bold text-slate-900">Solaire & Photovoltaïque</div>
-                  <div class="text-[11px] text-slate-500 mt-0.5">Centrales industrielles et toitures solaires</div>
+                  <div class="text-xs font-bold text-slate-900">{{ $t('nav.solutions_solar_title') }}</div>
+                  <div class="text-[11px] text-slate-500 mt-0.5">{{ $t('nav.solutions_solar_desc') }}</div>
                 </div>
               </NuxtLink>
 
@@ -89,8 +124,8 @@ watch(() => route.fullPath, () => {
                   <Icon name="lucide:zap" class="w-5 h-5 text-brand-green-600" />
                 </div>
                 <div>
-                  <div class="text-xs font-bold text-slate-900">Réseaux Électriques HT/BT</div>
-                  <div class="text-[11px] text-slate-500 mt-0.5">Postes de transformation & distribution</div>
+                  <div class="text-xs font-bold text-slate-900">{{ $t('nav.solutions_reseaux_title') }}</div>
+                  <div class="text-[11px] text-slate-500 mt-0.5">{{ $t('nav.solutions_reseaux_desc') }}</div>
                 </div>
               </NuxtLink>
 
@@ -102,8 +137,8 @@ watch(() => route.fullPath, () => {
                   <Icon name="lucide:settings" class="w-5 h-5 text-blue-600" />
                 </div>
                 <div>
-                  <div class="text-xs font-bold text-slate-900">Génie Industriel & Froid</div>
-                  <div class="text-[11px] text-slate-500 mt-0.5">Maintenance, climatisation et audit</div>
+                  <div class="text-xs font-bold text-slate-900">{{ $t('nav.solutions_industrie_title') }}</div>
+                  <div class="text-[11px] text-slate-500 mt-0.5">{{ $t('nav.solutions_industrie_desc') }}</div>
                 </div>
               </NuxtLink>
             </div>
@@ -117,10 +152,18 @@ watch(() => route.fullPath, () => {
           >
             <button
               type="button"
-              class="inline-flex items-center space-x-1 hover:text-brand-green-600 transition-colors py-2 outline-hidden"
+              class="inline-flex items-center space-x-1 py-2 outline-hidden transition-colors"
+              :class="isHomePage ? 'hover:text-white' : 'hover:text-brand-green-600'"
             >
               <span>{{ $t('nav.ecosystem') }}</span>
-              <Icon name="lucide:chevron-down" class="w-4 h-4 text-slate-400 transition-transform duration-200" :class="{ 'rotate-180': ecosystemMenuOpen }" />
+              <Icon
+                name="lucide:chevron-down"
+                class="w-4 h-4 transition-transform duration-200"
+                :class="[
+                  isHomePage ? 'text-slate-400' : 'text-slate-400',
+                  { 'rotate-180': ecosystemMenuOpen }
+                ]"
+              />
             </button>
 
             <div
@@ -142,7 +185,7 @@ watch(() => route.fullPath, () => {
                     <span class="text-xs font-bold text-slate-900">SolSizer</span>
                     <Icon name="lucide:external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-brand-gold-600" />
                   </div>
-                  <div class="text-[11px] text-slate-500 mt-0.5">Dimensionnement solaire & annuaire installateurs</div>
+                  <div class="text-[11px] text-slate-500 mt-0.5">{{ $t('nav.ecosystem_solsizer_desc') }}</div>
                 </div>
               </a>
 
@@ -161,7 +204,7 @@ watch(() => route.fullPath, () => {
                     <span class="text-xs font-bold text-slate-900">Eware Mobility</span>
                     <Icon name="lucide:external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-brand-green-700" />
                   </div>
-                  <div class="text-[11px] text-slate-500 mt-0.5">Super-App : VTC, Zémidjan & Immobilier à Lomé</div>
+                  <div class="text-[11px] text-slate-500 mt-0.5">{{ $t('nav.ecosystem_mobility_desc') }}</div>
                 </div>
               </a>
 
@@ -173,14 +216,14 @@ watch(() => route.fullPath, () => {
                 class="flex items-start space-x-3 p-3 rounded-xl hover:bg-slate-100 transition-colors group"
               >
                 <div class="w-9 h-9 rounded-lg bg-slate-100 border border-slate-300 flex items-center justify-center shrink-0">
-                  <Icon name="lucide:graduation-cap" class="w-5 h-5 text-slate-700" />
+                  <Icon name="lucide:store" class="w-5 h-5 text-slate-700" />
                 </div>
                 <div class="flex-1">
                   <div class="flex items-center justify-between">
                     <span class="text-xs font-bold text-slate-900">EIMAT Africa</span>
                     <Icon name="lucide:external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-700" />
                   </div>
-                  <div class="text-[11px] text-slate-500 mt-0.5">École d'ingénierie & formations certifiées</div>
+                  <div class="text-[11px] text-slate-500 mt-0.5">{{ $t('nav.ecosystem_eimat_desc') }}</div>
                 </div>
               </a>
             </div>
@@ -188,34 +231,141 @@ watch(() => route.fullPath, () => {
 
           <NuxtLink
             :to="localePath('/realisations')"
-            class="hover:text-brand-green-600 transition-colors py-2"
-            active-class="text-brand-green-600 font-bold"
+            class="py-2 transition-colors"
+            :class="isHomePage ? 'hover:text-white' : 'hover:text-brand-green-600'"
+            active-class="text-brand-green-400 font-bold"
           >
             {{ $t('nav.realizations') }}
           </NuxtLink>
 
           <NuxtLink
             :to="localePath('/actualites')"
-            class="hover:text-brand-green-600 transition-colors py-2"
-            active-class="text-brand-green-600 font-bold"
+            class="py-2 transition-colors"
+            :class="isHomePage ? 'hover:text-white' : 'hover:text-brand-green-600'"
+            active-class="text-brand-green-400 font-bold"
           >
             {{ $t('nav.news') }}
           </NuxtLink>
 
           <NuxtLink
             :to="localePath('/contact')"
-            class="hover:text-brand-green-600 transition-colors py-2"
-            active-class="text-brand-green-600 font-bold"
+            class="py-2 transition-colors"
+            :class="isHomePage ? 'hover:text-white' : 'hover:text-brand-green-600'"
+            active-class="text-brand-green-400 font-bold"
           >
             {{ $t('nav.contact') }}
           </NuxtLink>
         </nav>
 
-        <!-- Right Side: CTA Button (Or Solaire / Vert Eware) -->
-        <div class="hidden lg:flex items-center space-x-4">
+        <!-- Right Side: Filiale Selector, Language Switcher, and CTA Button -->
+        <div class="hidden lg:flex items-center space-x-3">
+          
+          <!-- Sélecteur de Filiale (Togo / Bénin) -->
+          <div ref="countryDropdownRef" class="relative">
+            <button
+              @click="countryDropdownOpen = !countryDropdownOpen"
+              type="button"
+              class="inline-flex items-center space-x-2 py-2 px-3 rounded-xl border text-xs font-semibold transition-all cursor-pointer shadow-2xs"
+              :class="[
+                isHomePage
+                  ? 'bg-white/10 hover:bg-white/20 border-white/20 text-white'
+                  : 'bg-surface-50 border-slate-200 text-slate-700 hover:border-brand-green-500 hover:bg-white'
+              ]"
+              aria-label="Sélectionner la filiale"
+            >
+              <FlagTogo v-if="currentBranch === 'togo'" class="w-4 h-2.5" />
+              <FlagBenin v-else class="w-4 h-2.5" />
+              <span>{{ currentBranch === 'togo' ? 'Togo' : 'Bénin' }}</span>
+              <Icon
+                name="lucide:chevron-down"
+                class="w-3.5 h-3.5 transition-transform duration-200"
+                :class="[
+                  isHomePage ? 'text-slate-300' : 'text-slate-400',
+                  { 'rotate-180': countryDropdownOpen }
+                ]"
+              />
+            </button>
+
+            <!-- Dropdown Menu Filiales -->
+            <div
+              v-show="countryDropdownOpen"
+              class="absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-hover border border-slate-200/90 p-2 z-50 text-xs"
+            >
+              <div class="px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                {{ $t('topbar.country_label') }}
+              </div>
+              <button
+                @click="selectBranch('togo')"
+                type="button"
+                class="w-full flex items-center justify-between p-2 rounded-xl transition-colors text-left cursor-pointer"
+                :class="currentBranch === 'togo' ? 'bg-brand-green-50 text-brand-green-800 font-semibold' : 'hover:bg-slate-50 text-slate-700'"
+              >
+                <div class="flex items-center space-x-2.5">
+                  <FlagTogo class="w-5 h-3" />
+                  <div>
+                    <div class="text-xs font-semibold">Eware Togo</div>
+                    <div class="text-[11px] text-slate-400">{{ $t('nav.togo_branch_sub') }}</div>
+                  </div>
+                </div>
+                <Icon v-if="currentBranch === 'togo'" name="lucide:check" class="w-4 h-4 text-brand-green-600" />
+              </button>
+
+              <button
+                @click="selectBranch('benin')"
+                type="button"
+                class="w-full flex items-center justify-between p-2 rounded-xl hover:bg-amber-50/60 transition-colors text-left group cursor-pointer"
+              >
+                <div class="flex items-center space-x-2.5 opacity-85 group-hover:opacity-100">
+                  <FlagBenin class="w-5 h-3" />
+                  <div>
+                    <div class="text-xs font-semibold text-slate-700">Eware Bénin</div>
+                    <div class="text-[11px] text-slate-400">{{ $t('nav.benin_branch_sub') }}</div>
+                  </div>
+                </div>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-gold-100 text-brand-gold-800 border border-brand-gold-300">
+                  {{ $t('topbar.soon_badge') }}
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Sélecteur de Langue (FR | EN) -->
+          <div
+            class="flex items-center rounded-xl p-0.5 border text-xs font-bold transition-colors"
+            :class="isHomePage ? 'bg-white/10 border-white/20' : 'bg-surface-100 border-slate-200'"
+          >
+            <button
+              @click="setLocale('fr')"
+              type="button"
+              class="px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer text-xs"
+              :class="[
+                locale === 'fr'
+                  ? 'bg-brand-green-600 text-white shadow-xs font-bold'
+                  : isHomePage ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'
+              ]"
+              aria-label="Français"
+            >
+              FR
+            </button>
+            <button
+              @click="setLocale('en')"
+              type="button"
+              class="px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer text-xs"
+              :class="[
+                locale === 'en'
+                  ? 'bg-brand-green-600 text-white shadow-xs font-bold'
+                  : isHomePage ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'
+              ]"
+              aria-label="English"
+            >
+              EN
+            </button>
+          </div>
+
+          <!-- CTA Audit Button (Or Solaire) -->
           <NuxtLink
             :to="localePath('/contact')"
-            class="inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-brand-gold-400 hover:bg-brand-gold-500 text-slate-950 font-bold text-xs shadow-soft transition-all hover:scale-105 active:scale-95"
+            class="inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-brand-gold-400 hover:bg-brand-gold-500 text-slate-950 font-bold text-xs shadow-soft transition-all hover:scale-105 active:scale-95"
           >
             <Icon name="lucide:clipboard-check" class="w-4 h-4 text-slate-950" />
             <span>{{ $t('nav.request_audit') }}</span>
@@ -227,7 +377,12 @@ watch(() => route.fullPath, () => {
           <button
             @click="mobileMenuOpen = !mobileMenuOpen"
             type="button"
-            class="p-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 focus:outline-hidden"
+            class="p-2.5 rounded-xl border transition-colors focus:outline-hidden cursor-pointer"
+            :class="[
+              isHomePage
+                ? 'bg-white/10 hover:bg-white/20 border-white/20 text-white'
+                : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+            ]"
             aria-label="Ouvrir le menu mobile"
           >
             <Icon v-if="!mobileMenuOpen" name="lucide:menu" class="w-6 h-6" />
@@ -247,19 +402,19 @@ watch(() => route.fullPath, () => {
       <div class="flex items-center justify-between p-3 rounded-xl bg-surface-100 border border-slate-200">
         <div class="flex items-center space-x-2">
           <FlagTogo class="w-5 h-3" />
-          <span class="text-xs font-bold text-slate-800">Eware Togo (Siège)</span>
+          <span class="text-xs font-bold text-slate-800">Eware Togo</span>
         </div>
         <div class="flex items-center space-x-1 text-xs">
           <button
             @click="setLocale('fr')"
-            class="px-2 py-1 rounded font-bold"
+            class="px-2.5 py-1 rounded font-bold transition-colors"
             :class="locale === 'fr' ? 'bg-brand-green-600 text-white' : 'text-slate-600'"
           >
             FR
           </button>
           <button
             @click="setLocale('en')"
-            class="px-2 py-1 rounded font-bold"
+            class="px-2.5 py-1 rounded font-bold transition-colors"
             :class="locale === 'en' ? 'bg-brand-green-600 text-white' : 'text-slate-600'"
           >
             EN
@@ -269,9 +424,9 @@ watch(() => route.fullPath, () => {
 
       <!-- Links List -->
       <div class="flex flex-col space-y-2 text-sm font-semibold text-slate-800">
-        <NuxtLink :to="localePath('/')" class="p-2.5 rounded-xl hover:bg-slate-50">Accueil</NuxtLink>
+        <NuxtLink :to="localePath('/')" class="p-2.5 rounded-xl hover:bg-slate-50">{{ $t('nav.home') }}</NuxtLink>
         <NuxtLink :to="localePath('/solutions/solaire')" class="p-2.5 rounded-xl hover:bg-slate-50 flex items-center justify-between">
-          <span>Solutions Solaires & HT/BT</span>
+          <span>{{ $t('nav.solutions') }}</span>
           <Icon name="lucide:chevron-right" class="w-4 h-4 text-slate-400" />
         </NuxtLink>
         <NuxtLink :to="localePath('/realisations')" class="p-2.5 rounded-xl hover:bg-slate-50">{{ $t('nav.realizations') }}</NuxtLink>
@@ -279,9 +434,27 @@ watch(() => route.fullPath, () => {
         <NuxtLink :to="localePath('/contact')" class="p-2.5 rounded-xl hover:bg-slate-50">{{ $t('nav.contact') }}</NuxtLink>
       </div>
 
+      <!-- Coordonnées rapides (Mobile) -->
+      <div class="pt-3 border-t border-slate-200 grid grid-cols-2 gap-2 text-xs">
+        <a
+          href="tel:+22892405748"
+          class="flex items-center justify-center space-x-1.5 p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 font-semibold"
+        >
+          <Icon name="lucide:phone" class="w-3.5 h-3.5 text-brand-green-600" />
+          <span>{{ $t('nav.call') }}</span>
+        </a>
+        <a
+          href="mailto:info@ewaregroup.org"
+          class="flex items-center justify-center space-x-1.5 p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 font-semibold"
+        >
+          <Icon name="lucide:mail" class="w-3.5 h-3.5 text-brand-green-600" />
+          <span>{{ $t('nav.email') }}</span>
+        </a>
+      </div>
+
       <!-- Ecosystem Apps in Mobile -->
-      <div class="pt-3 border-t border-slate-200 space-y-2">
-        <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-2">Apps & Partenaires</div>
+      <div class="pt-2 border-t border-slate-200 space-y-2">
+        <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-2">{{ $t('nav.apps_partners') }}</div>
         <div class="grid grid-cols-2 gap-2">
           <a
             href="https://solsizer.app"
@@ -304,15 +477,57 @@ watch(() => route.fullPath, () => {
         </div>
       </div>
 
-      <!-- Mobile CTA -->
+      <!-- Mobile CTA (Or Solaire) -->
       <div class="pt-2">
         <NuxtLink
           :to="localePath('/contact')"
-          class="w-full flex items-center justify-center space-x-2 py-3.5 rounded-xl bg-brand-gold-400 text-slate-950 font-bold text-sm shadow-soft"
+          class="w-full flex items-center justify-center space-x-2 py-3.5 rounded-xl bg-brand-gold-400 hover:bg-brand-gold-500 text-slate-950 font-bold text-sm shadow-soft"
         >
-          <Icon name="lucide:clipboard-check" class="w-4 h-4" />
+          <Icon name="lucide:clipboard-check" class="w-4 h-4 text-slate-950" />
           <span>{{ $t('nav.request_audit') }}</span>
         </NuxtLink>
+      </div>
+    </div>
+
+    <!-- Modale Informationnelle pour le Bénin (Read-only sans fausse promesse) -->
+    <div
+      v-if="showBeninModal"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs"
+      @click.self="showBeninModal = false"
+    >
+      <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center">
+              <FlagBenin class="w-6 h-4" />
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-slate-900">{{ $t('branches.benin_modal_title') }}</h3>
+              <p class="text-xs text-amber-700 font-semibold">{{ $t('branches.benin_status') }}</p>
+            </div>
+          </div>
+          <button
+            @click="showBeninModal = false"
+            type="button"
+            class="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-100 cursor-pointer"
+          >
+            <Icon name="lucide:x" class="w-5 h-5" />
+          </button>
+        </div>
+
+        <div class="mt-4 text-xs text-slate-600 leading-relaxed">
+          {{ $t('branches.benin_modal_desc') }}
+        </div>
+
+        <div class="mt-6 flex items-center justify-end space-x-3">
+          <button
+            @click="showBeninModal = false"
+            type="button"
+            class="px-4 py-2 rounded-xl bg-brand-green-600 hover:bg-brand-green-700 text-white text-xs font-semibold transition-colors shadow-xs cursor-pointer"
+          >
+            {{ $t('branches.close') }}
+          </button>
+        </div>
       </div>
     </div>
   </header>

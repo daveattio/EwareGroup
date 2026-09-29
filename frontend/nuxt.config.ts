@@ -9,6 +9,12 @@ export default defineNuxtConfig({
     host: '0.0.0.0'
   },
 
+  runtimeConfig: {
+    public: {
+      strapiUrl: process.env.NUXT_PUBLIC_STRAPI_URL || 'http://localhost:1337'
+    }
+  },
+
   modules: [
     '@nuxtjs/tailwindcss',
     '@nuxt/icon',
@@ -52,14 +58,14 @@ export default defineNuxtConfig({
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         {
           name: 'description',
-          content: 'Eware Group : Leader en ingénierie énergétique solaire, réseaux HT/BT, formation d\'élite (EIMAT) et solutions digitales (SolSizer, Eware Mobility) au Togo et en Afrique.'
+          content: 'Eware Group : Leader en ingénierie énergétique solaire, réseaux HT/BT, distribution d\'équipements industriels (EIMAT) et solutions digitales (SolSizer, Eware Mobility) au Togo et en Afrique.'
         },
         { name: 'theme-color', content: '#02723c' },
         { property: 'og:type', content: 'website' },
         { property: 'og:title', content: 'Eware Group | Transition Énergétique & Ingénierie Industrielle' },
         {
           property: 'og:description',
-          content: 'Infrastructures solaires, réseaux HT/BT, institut EIMAT et plateformes technologiques en Afrique.'
+          content: 'Infrastructures solaires, réseaux HT/BT, fourniture de matériel industriel avec EIMAT et plateformes technologiques en Afrique.'
         }
       ],
       link: [

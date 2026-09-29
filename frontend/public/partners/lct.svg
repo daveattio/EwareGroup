@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 120" width="100%" height="100%">
+  <!-- Arrière-plan transparent -->
+  <g transform="translate(10, 10)">
+    <!-- Symbole Graphique Terminal / Navire Conteneurs -->
+    <g transform="translate(10, 15)">
+      <!-- Grues portuaires et conteneurs stylisés -->
+      <rect x="0" y="42" width="65" height="26" rx="4" fill="#003B73"/>
+      <!-- Conteneurs empilés -->
+      <rect x="6" y="24" width="24" height="15" rx="2" fill="#0080FF"/>
+      <rect x="34" y="24" width="24" height="15" rx="2" fill="#E67E22"/>
+      <rect x="20" y="6" width="24" height="15" rx="2" fill="#00A86B"/>
+      <!-- Lignes de vagues maritimes -->
+      <path d="M-5 78 Q15 72 35 78 T75 78" fill="none" stroke="#0080FF" stroke-width="3" stroke-linecap="round"/>
+      <path d="M0 86 Q20 80 40 86 T80 86" fill="none" stroke="#003B73" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <!-- Typographie Officielle LCT -->
+    <g transform="translate(95, 20)">
+      <!-- Sigle LCT Imposant -->
+      <text x="0" y="45" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="46" fill="#002D62" letter-spacing="2">LCT</text>
+      <!-- Texte complet Lomé Container Terminal -->
+      <text x="2" y="64" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="12" fill="#E67E22" letter-spacing="1.5">LOMÉ CONTAINER TERMINAL</text>
+      <!-- Sous-titre Port de Lomé -->
+      <text x="2" y="78" font-family="system-ui, -apple-system, sans-serif" font-weight="600" font-size="9.5" fill="#64748B" letter-spacing="1">HUB PORTUAIRE PANAFRICAIN</text>
+    </g>
+  </g>
+</svg>

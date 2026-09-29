@@ -1,12 +1,13 @@
 <script setup lang="ts">
+const { t } = useI18n()
 const localePath = useLocalePath()
 
 useHead({
-  title: 'Génie Industriel & Climatisation | Eware Group',
+  title: computed(() => t('solutions_page.industrie_meta_title')),
   meta: [
     {
       name: 'description',
-      content: 'Climatisation industrielle, froid commercial, efficacité énergétique et maintenance des installations techniques.'
+      content: computed(() => t('solutions_page.industrie_meta_desc'))
     }
   ]
 })
@@ -18,24 +19,24 @@ useHead({
       
       <!-- Breadcrumb -->
       <div class="flex items-center space-x-2 text-xs text-slate-500 mb-6">
-        <NuxtLink :to="localePath('/')" class="hover:text-brand-green-600">Accueil</NuxtLink>
+        <NuxtLink :to="localePath('/')" class="hover:text-brand-green-600">{{ $t('nav.home') }}</NuxtLink>
         <Icon name="lucide:chevron-right" class="w-3.5 h-3.5" />
-        <span>Solutions</span>
+        <span>{{ $t('nav.solutions') }}</span>
         <Icon name="lucide:chevron-right" class="w-3.5 h-3.5" />
-        <span class="text-slate-900 font-semibold">Génie Industriel</span>
+        <span class="text-slate-900 font-semibold">{{ $t('solutions.industry_title') }}</span>
       </div>
 
-      <!-- Header -->
-      <div class="max-w-3xl">
-        <span class="inline-flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
-          <Icon name="lucide:settings-2" class="w-3.5 h-3.5" />
-          <span>Performance & Froid Industriel</span>
+      <!-- Header Centré -->
+      <div class="text-center max-w-3xl mx-auto">
+        <span class="inline-flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider text-brand-green-700 bg-brand-green-50 px-3.5 py-1 rounded-full border border-brand-green-200">
+          <Icon name="lucide:settings-2" class="w-3.5 h-3.5 text-brand-green-600" />
+          <span>{{ $t('solutions_page.industrie_badge') }}</span>
         </span>
         <h1 class="mt-4 text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
-          Génie Climatique & Maintenance Industrielle
+          {{ $t('solutions_page.industrie_title') }}
         </h1>
-        <p class="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
-          Garantissez la fiabilité opérationnelle de vos équipements grâce à nos services d'ingénierie CVC, de froid commercial et de contrats de maintenance préventive.
+        <p class="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed font-normal max-w-2xl mx-auto">
+          {{ $t('solutions_page.industrie_subtitle') }}
         </p>
       </div>
 
@@ -45,9 +46,9 @@ useHead({
           <div class="w-12 h-12 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600">
             <Icon name="lucide:wind" class="w-6 h-6" />
           </div>
-          <h3 class="mt-6 text-xl font-bold text-slate-900">Systèmes CVC & Climatisation</h3>
+          <h3 class="mt-6 text-xl font-bold text-slate-900">{{ $t('solutions_page.industrie_card1_title') }}</h3>
           <p class="mt-3 text-xs sm:text-sm text-slate-500 leading-relaxed">
-            Installation et optimisation de systèmes de climatisation centrale, VRV/DRV pour immeubles de bureaux, banques et usines.
+            {{ $t('solutions_page.industrie_card1_desc') }}
           </p>
         </div>
 
@@ -55,9 +56,9 @@ useHead({
           <div class="w-12 h-12 rounded-xl bg-cyan-50 border border-cyan-200 flex items-center justify-center text-cyan-600">
             <Icon name="lucide:snowflake" class="w-6 h-6" />
           </div>
-          <h3 class="mt-6 text-xl font-bold text-slate-900">Froid Commercial & Agroalimentaire</h3>
+          <h3 class="mt-6 text-xl font-bold text-slate-900">{{ $t('solutions_page.industrie_card2_title') }}</h3>
           <p class="mt-3 text-xs sm:text-sm text-slate-500 leading-relaxed">
-            Chambres froides positives et négatives, centrales frigorifiques et tunnels de congélation répondant aux normes sanitaires strictes.
+            {{ $t('solutions_page.industrie_card2_desc') }}
           </p>
         </div>
 
@@ -65,9 +66,9 @@ useHead({
           <div class="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-brand-green-600">
             <Icon name="lucide:wrench" class="w-6 h-6" />
           </div>
-          <h3 class="mt-6 text-xl font-bold text-slate-900">Contrats de Maintenance 24/7</h3>
+          <h3 class="mt-6 text-xl font-bold text-slate-900">{{ $t('solutions_page.industrie_card3_title') }}</h3>
           <p class="mt-3 text-xs sm:text-sm text-slate-500 leading-relaxed">
-            Intervention rapide, maintenance préventive planifiée et pièces de rechange d'origine pour éviter les arrêts de production.
+            {{ $t('solutions_page.industrie_card3_desc') }}
           </p>
         </div>
       </div>
@@ -75,16 +76,16 @@ useHead({
       <!-- CTA -->
       <div class="mt-14 p-8 rounded-3xl bg-brand-green-600 text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-card">
         <div>
-          <h2 class="text-xl sm:text-2xl font-bold">Un audit de vos installations industrielles ?</h2>
+          <h2 class="text-xl sm:text-2xl font-bold">{{ $t('solutions.industry_title') }}</h2>
           <p class="mt-1 text-xs sm:text-sm text-brand-green-100 max-w-xl">
-            Nos techniciens certifiés interviennent sur vos sites pour évaluer vos rendements énergétiques.
+            {{ $t('solutions_page.industrie_subtitle') }}
           </p>
         </div>
         <NuxtLink
           :to="localePath('/contact')"
           class="inline-flex items-center space-x-2 px-6 py-3.5 rounded-xl bg-brand-gold-400 hover:bg-brand-gold-500 text-slate-950 font-bold text-xs shadow-soft transition-all shrink-0"
         >
-          <span>Prendre contact</span>
+          <span>{{ $t('hero.cta_audit') }}</span>
           <Icon name="lucide:arrow-right" class="w-4 h-4" />
         </NuxtLink>
       </div>

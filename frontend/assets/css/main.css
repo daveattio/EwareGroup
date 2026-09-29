@@ -22,4 +22,73 @@
   .clean-card-hover {
     @apply hover:border-brand-green-300 hover:shadow-hover hover:-translate-y-0.5;
   }
+
+  /* Animation Carrousel fluide en mouvement perpétuel (SyndicTG Marquee) */
+  @keyframes ticker-scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-ticker {
+    display: flex;
+    width: max-content;
+    animation: ticker-scroll 35s linear infinite;
+  }
+
+  .animate-ticker:hover {
+    animation-play-state: paused;
+  }
+
+  /* Animations de flottement fluide 3D (Inspiration Dribbble SaaS) */
+  @keyframes float-subtle {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  @keyframes float-delayed {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(8px);
+    }
+  }
+
+  @keyframes float-slow {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-6px) rotate(0.5deg);
+    }
+  }
+
+  .animate-float {
+    animation: float-subtle 4.5s ease-in-out infinite;
+  }
+
+  .animate-float-delayed {
+    animation: float-delayed 5s ease-in-out infinite 1s;
+  }
+
+  .animate-float-slow {
+    animation: float-slow 6s ease-in-out infinite 0.5s;
+  }
+
+  /* Glassmorphism haute définition pour les badges flottants */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.3) inset;
+  }
 }

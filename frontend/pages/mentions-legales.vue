@@ -1,12 +1,13 @@
 <script setup lang="ts">
+const { t } = useI18n()
 const localePath = useLocalePath()
 
 useHead({
-  title: 'Mentions Légales | Eware Group',
+  title: computed(() => t('legal_page.meta_title')),
   meta: [
     {
       name: 'description',
-      content: 'Mentions légales et informations juridiques concernant Eware Group.'
+      content: computed(() => t('legal_page.meta_desc'))
     }
   ]
 })
@@ -18,40 +19,27 @@ useHead({
       
       <!-- Breadcrumb -->
       <div class="flex items-center space-x-2 text-xs text-slate-500 mb-6">
-        <NuxtLink :to="localePath('/')" class="hover:text-brand-green-600">Accueil</NuxtLink>
+        <NuxtLink :to="localePath('/')" class="hover:text-brand-green-600">{{ $t('nav.home') }}</NuxtLink>
         <Icon name="lucide:chevron-right" class="w-3.5 h-3.5" />
-        <span class="text-slate-900 font-semibold">Mentions Légales</span>
+        <span class="text-slate-900 font-semibold">{{ $t('legal_page.title') }}</span>
       </div>
 
-      <div class="clean-card p-8 sm:p-12 space-y-6 text-sm text-slate-600 leading-relaxed">
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Mentions Légales</h1>
+      <div class="clean-card p-8 sm:p-12 space-y-6 text-sm text-slate-600 leading-relaxed whitespace-pre-line">
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900">{{ $t('legal_page.title') }}</h1>
         
         <div>
-          <h2 class="text-base font-bold text-slate-900 mb-2">1. Éditeur de la Plateforme</h2>
-          <p>
-            Le site officiel <strong>ewaregroup.org</strong> est édité par la société <strong>EWARE GROUP</strong>, société par actions simplifiée de droit togolais.<br>
-            <strong>Siège social :</strong> 13 BP 93, Derrière le CEG Baguida centre, Lomé, Togo.<br>
-            <strong>Téléphone :</strong> +228 92 40 57 48<br>
-            <strong>Email :</strong> info@ewaregroup.org
-          </p>
+          <h2 class="text-base font-bold text-slate-900 mb-2">{{ $t('legal_page.sec1_title') }}</h2>
+          <p>{{ $t('legal_page.sec1_content') }}</p>
         </div>
 
         <div>
-          <h2 class="text-base font-bold text-slate-900 mb-2">2. Écosystème & Marques Déposées</h2>
-          <p>
-            Eware Group est propriétaire et éditrice des marques et solutions associées :<br>
-            • <strong>SolSizer</strong> (Plateforme SaaS de dimensionnement solaire photovoltaïque - solsizer.app)<br>
-            • <strong>Eware Mobility</strong> (Super-application de mobilité urbaine & immobilier au Togo)<br>
-            • <strong>EIMAT Africa</strong> (École Internationale des Métiers d'Avenir et des Technologies)
-          </p>
+          <h2 class="text-base font-bold text-slate-900 mb-2">{{ $t('legal_page.sec2_title') }}</h2>
+          <p>{{ $t('legal_page.sec2_content') }}</p>
         </div>
 
         <div>
-          <h2 class="text-base font-bold text-slate-900 mb-2">3. Propriété Intellectuelle & Données Personnelles</h2>
-          <p>
-            L'ensemble des contenus, graphismes, logos, codes sources et architectures logicielles présents sur ce portail sont la propriété exclusive d'Eware Group.<br>
-            Conformément aux réglementations de protection des données, les informations recueillies via nos formulaires sont exclusivement destinées au traitement technique et commercial de vos demandes et ne sont jamais cédées à des tiers sans votre consentement explicite.
-          </p>
+          <h2 class="text-base font-bold text-slate-900 mb-2">{{ $t('legal_page.sec3_title') }}</h2>
+          <p>{{ $t('legal_page.sec3_content') }}</p>
         </div>
       </div>
 

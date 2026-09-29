@@ -1,182 +1,130 @@
 <script setup lang="ts">
+const { t } = useI18n()
 const localePath = useLocalePath()
+
+// Données des réalisations & métriques clés
+const stats = computed(() => [
+  { value: '+12 MWc', label: t('hero.stat_solar_label') },
+  { value: '45%', label: t('hero.stat_savings_label') },
+  { value: '100%', label: t('hero.stat_continuity_label') },
+  { value: '24/7', label: t('hero.stat_monitoring_label') }
+])
+
+// Équipementiers & Fournisseurs Tier-1
+const suppliers = [
+  { name: 'Jinko Solar', logo: '/images/suppliers/jinko.png', type: 'Panneaux PV Tier-1' },
+  { name: 'Victron Energy', logo: '/images/suppliers/victron.png', type: 'Systèmes Hybrides' },
+  { name: 'Huawei Solar', logo: '/images/suppliers/huawei.png', type: 'Onduleurs Réseau' },
+  { name: 'BYD Energy', logo: '/images/suppliers/byd.png', type: 'Stockage Lithium BESS' }
+]
 </script>
 
 <template>
-  <section class="relative overflow-hidden pt-10 pb-16 lg:pt-16 lg:pb-24 bg-gradient-to-b from-white via-surface-50 to-surface-100 border-b border-slate-200/80">
-    <!-- Subtle Background Glows (Vert Eware & Or Solaire) -->
-    <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-      <div class="absolute -top-24 right-1/4 w-96 h-96 rounded-full bg-brand-green-100/40 blur-3xl"></div>
-      <div class="absolute top-1/2 -left-20 w-80 h-80 rounded-full bg-brand-gold-100/50 blur-3xl"></div>
+  <section class="relative w-full min-h-[92vh] flex flex-col justify-between overflow-hidden bg-slate-950 text-white">
+    
+    <!-- IMAGE EN PLEIN ÉCRAN EN ARRIÈRE-PLAN (Centrale solaire industrielle et ciel) -->
+    <div class="absolute inset-0 z-0">
+      <img
+        src="/images/hero/solar-farm-hero.jpg"
+        alt="Centrale solaire et ingénierie Eware Group"
+        class="w-full h-full object-cover object-center filter brightness-[0.70] contrast-[1.08] scale-100 hover:scale-105 transition-transform duration-1000 ease-out"
+      />
+      <!-- Double dégradé cinématique pour lisibilité optimale du texte et transition douce -->
+      <div class="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/75 to-slate-950/40"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/40"></div>
     </div>
 
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <!-- Main Pitch Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+    <!-- CONTENU PRINCIPAL DU HERO (Centré avec haute visibilité & compensation du navbar transparent) -->
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 sm:pt-40 pb-16 w-full my-auto">
+      <div class="max-w-3xl">
         
-        <!-- Left Column: Value Proposition & CTAs (7 cols) -->
-        <div class="lg:col-span-7 flex flex-col items-start">
-          
-          <!-- Kicker Tag -->
-          <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-brand-green-50 border border-brand-green-200/80 text-brand-green-700 text-xs font-bold tracking-wide uppercase">
-            <span class="w-2 h-2 rounded-full bg-brand-green-600 animate-pulse"></span>
-            <span>{{ $t('hero.kicker') }}</span>
-          </div>
+        <!-- Grand Titre Puissant et Immersif -->
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.08] drop-shadow-md">
+          {{ $t('hero.title_start') }}
+          <span class="text-brand-gold-400 block sm:inline">
+            {{ $t('hero.title_highlight') }}
+          </span>
+        </h1>
 
-          <!-- Main Headline -->
-          <h1 class="mt-6 text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.12]">
-            {{ $t('hero.title_start') }}
-            <span class="text-brand-green-600">{{ $t('hero.title_highlight') }}</span>
-            {{ $t('hero.title_end') }}
-          </h1>
+        <!-- Descriptif clair & engageant -->
+        <p class="mt-6 text-base sm:text-xl text-slate-200 leading-relaxed font-normal max-w-2xl drop-shadow-sm">
+          {{ $t('hero.subtitle') }}
+        </p>
 
-          <!-- Subtitle -->
-          <p class="mt-6 text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl font-normal">
-            {{ $t('hero.subtitle') }}
-          </p>
+        <!-- Boutons d'Action (Or Solaire Lumineux & Contour Verre) -->
+        <div class="mt-10 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+          <NuxtLink
+            :to="localePath('/contact')"
+            class="inline-flex items-center justify-center space-x-2.5 px-8 py-4 rounded-xl bg-brand-gold-400 hover:bg-brand-gold-500 text-slate-950 font-extrabold text-sm shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 group cursor-pointer"
+          >
+            <span>{{ $t('hero.cta_audit') }}</span>
+            <Icon name="lucide:arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </NuxtLink>
 
-          <!-- CTAs -->
-          <div class="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 w-full sm:w-auto">
-            <NuxtLink
-              :to="localePath('/solutions/solaire')"
-              class="inline-flex items-center justify-center space-x-2 px-7 py-3.5 rounded-xl bg-brand-green-600 hover:bg-brand-green-700 text-white font-bold text-sm shadow-card transition-all hover:scale-105 active:scale-95"
-            >
-              <span>{{ $t('hero.cta_solutions') }}</span>
-              <Icon name="lucide:arrow-right" class="w-4 h-4" />
-            </NuxtLink>
-
-            <NuxtLink
-              :to="localePath('/contact')"
-              class="inline-flex items-center justify-center space-x-2 px-6 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-bold text-sm border border-slate-200 shadow-soft transition-all"
-            >
-              <Icon name="lucide:phone-call" class="w-4 h-4 text-brand-green-600" />
-              <span>{{ $t('hero.cta_contact') }}</span>
-            </NuxtLink>
-          </div>
-
-          <!-- Trust Badges (Togo & Bénin) -->
-          <div class="mt-8 pt-6 border-t border-slate-200/80 flex flex-wrap items-center gap-4 text-xs font-medium text-slate-500">
-            <div class="flex items-center space-x-1.5">
-              <Icon name="lucide:shield-check" class="w-4 h-4 text-brand-green-600" />
-              <span>Normes & Sécurité Industrielle</span>
-            </div>
-            <div class="flex items-center space-x-1.5">
-              <Icon name="lucide:cpu" class="w-4 h-4 text-brand-gold-500" />
-              <span>Technologies Propriétaires</span>
-            </div>
-            <div class="flex items-center space-x-1.5">
-              <Icon name="lucide:globe" class="w-4 h-4 text-slate-400" />
-              <span>Pôle Togo & Expansion Bénin</span>
-            </div>
-          </div>
-
+          <NuxtLink
+            :to="localePath('/solutions/solaire')"
+            class="inline-flex items-center justify-center space-x-2 px-6 py-4 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold text-sm border border-white/25 transition-all duration-300 group cursor-pointer"
+          >
+            <span>{{ $t('hero.cta_solutions') }}</span>
+            <Icon name="lucide:chevron-right" class="w-4 h-4 text-slate-300 group-hover:translate-x-0.5 transition-transform" />
+          </NuxtLink>
         </div>
 
-        <!-- Right Column: Interactive Ecosystem Highlight Cards (5 cols) -->
-        <div class="lg:col-span-5 flex flex-col gap-4">
-          
-          <!-- Card 1: SolSizer (Gold accent) -->
-          <a
-            href="https://solsizer.app"
-            target="_blank"
-            rel="noopener"
-            class="clean-card clean-card-hover p-5 flex items-start space-x-4 group"
-          >
-            <div class="w-12 h-12 rounded-xl bg-brand-gold-100 border border-brand-gold-300 flex items-center justify-center shrink-0">
-              <Icon name="lucide:calculator" class="w-6 h-6 text-brand-gold-600" />
-            </div>
-            <div class="flex-1">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase tracking-wider text-brand-gold-700">Tech Solaire</span>
-                <span class="text-[11px] font-semibold text-slate-400 group-hover:text-brand-gold-600 flex items-center gap-1">
-                  solsizer.app <Icon name="lucide:arrow-up-right" class="w-3.5 h-3.5" />
-                </span>
-              </div>
-              <h3 class="text-base font-bold text-slate-900 mt-1">SolSizer Africa</h3>
-              <p class="text-xs text-slate-500 mt-1 leading-snug">
-                Logiciel de dimensionnement photovoltaïque et annuaire certifié des installateurs solaires.
-              </p>
-            </div>
-          </a>
-
-          <!-- Card 2: Eware Mobility (Green accent) -->
-          <a
-            href="https://eware-mobility.ewaregroup.org"
-            target="_blank"
-            rel="noopener"
-            class="clean-card clean-card-hover p-5 flex items-start space-x-4 group"
-          >
-            <div class="w-12 h-12 rounded-xl bg-brand-green-100 border border-brand-green-300 flex items-center justify-center shrink-0">
-              <Icon name="lucide:car" class="w-6 h-6 text-brand-green-700" />
-            </div>
-            <div class="flex-1">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase tracking-wider text-brand-green-700">Mobilité & Smart City</span>
-                <span class="text-[11px] font-semibold text-slate-400 group-hover:text-brand-green-700 flex items-center gap-1">
-                  Lomé & Bénin <Icon name="lucide:arrow-up-right" class="w-3.5 h-3.5" />
-                </span>
-              </div>
-              <h3 class="text-base font-bold text-slate-900 mt-1">Eware Mobility</h3>
-              <p class="text-xs text-slate-500 mt-1 leading-snug">
-                Super-app urbaine : VTC, Moto-taxi Zémidjan et immobilier certifié sans surprise tarifaire.
-              </p>
-            </div>
-          </a>
-
-          <!-- Card 3: EIMAT Africa (Institutional Slate accent) -->
-          <a
-            href="https://eimatafrica.com"
-            target="_blank"
-            rel="noopener"
-            class="clean-card clean-card-hover p-5 flex items-start space-x-4 group"
-          >
-            <div class="w-12 h-12 rounded-xl bg-slate-100 border border-slate-300 flex items-center justify-center shrink-0">
-              <Icon name="lucide:graduation-cap" class="w-6 h-6 text-slate-700" />
-            </div>
-            <div class="flex-1">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Formation & Talents</span>
-                <span class="text-[11px] font-semibold text-slate-400 group-hover:text-slate-800 flex items-center gap-1">
-                  eimatafrica.com <Icon name="lucide:arrow-up-right" class="w-3.5 h-3.5" />
-                </span>
-              </div>
-              <h3 class="text-base font-bold text-slate-900 mt-1">EIMAT Africa</h3>
-              <p class="text-xs text-slate-500 mt-1 leading-snug">
-                Institut d'excellence formant les futurs ingénieurs et techniciens aux métiers de l'énergie.
-              </p>
-            </div>
-          </a>
-
+        <!-- Badges Flottants de Réassurance Technique -->
+        <div class="mt-10 pt-6 border-t border-white/15 flex flex-wrap items-center gap-6 text-xs text-slate-300 font-medium">
+          <div class="flex items-center space-x-2">
+            <Icon name="lucide:shield-check" class="w-4 h-4 text-brand-green-400" />
+            <span>{{ $t('hero.badge_iec') }}</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <Icon name="lucide:cpu" class="w-4 h-4 text-brand-gold-400" />
+            <span>{{ $t('hero.badge_solsizer') }}</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <Icon name="lucide:map-pin" class="w-4 h-4 text-emerald-400" />
+            <span>{{ $t('hero.badge_locations') }}</span>
+          </div>
         </div>
 
       </div>
+    </div>
 
-      <!-- Impact Metrics Banner (Inspiration SyndicTG - Chiffres Clés Aérés) -->
-      <div class="mt-14 pt-8 border-t border-slate-200 grid grid-cols-2 md:grid-cols-4 gap-6">
+    <!-- BANDEAU BAS EN PLEIN ÉCRAN : STATS & LOGOS ÉQUIPEMENTIERS TIER-1 -->
+    <div class="relative z-10 w-full bg-slate-950/80 backdrop-blur-md border-t border-white/10 py-5">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div class="clean-card p-5 text-center">
-          <div class="text-2xl sm:text-3xl font-extrabold text-brand-green-700 leading-none">+12 MWc</div>
-          <div class="text-xs font-semibold text-slate-500 mt-2">{{ $t('hero.stat_solar') }}</div>
+        <!-- Grille Chiffres Clés en Plein Écran -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pb-4 border-b border-white/10">
+          <div v-for="stat in stats" :key="stat.label" class="flex flex-col">
+            <span class="text-2xl sm:text-3xl font-black text-brand-gold-400 tracking-tight">{{ stat.value }}</span>
+            <span class="text-[11px] text-slate-300 font-medium mt-0.5">{{ stat.label }}</span>
+          </div>
         </div>
 
-        <div class="clean-card p-5 text-center">
-          <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-none">Togo & Bénin</div>
-          <div class="text-xs font-semibold text-slate-500 mt-2">{{ $t('hero.stat_presence') }}</div>
-        </div>
+        <!-- Rangée des Partenaires Matériels -->
+        <div class="pt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <span class="text-[11px] font-bold uppercase tracking-widest text-slate-400">
+            {{ $t('hero.certified_tier1') }}
+          </span>
 
-        <div class="clean-card p-5 text-center">
-          <div class="text-2xl sm:text-3xl font-extrabold text-brand-gold-500 leading-none">+1 200</div>
-          <div class="text-xs font-semibold text-slate-500 mt-2">{{ $t('hero.stat_talents') }}</div>
-        </div>
-
-        <div class="clean-card p-5 text-center">
-          <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-none">02 Apps Tech</div>
-          <div class="text-xs font-semibold text-slate-500 mt-2">{{ $t('hero.stat_apps') }}</div>
+          <div class="flex flex-wrap items-center gap-5 sm:gap-8">
+            <div
+              v-for="sup in suppliers"
+              :key="sup.name"
+              class="flex items-center space-x-2 opacity-80 hover:opacity-100 transition-opacity"
+              :title="`${sup.name} - ${sup.type}`"
+            >
+              <img
+                :src="sup.logo"
+                :alt="sup.name"
+                class="h-6 sm:h-7 w-auto object-contain filter brightness-0 invert"
+              />
+            </div>
+          </div>
         </div>
 
       </div>
-
     </div>
+
   </section>
 </template>

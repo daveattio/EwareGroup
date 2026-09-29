@@ -25,10 +25,23 @@ const dropdownRef = ref<HTMLElement | null>(null)
 onClickOutside(dropdownRef, () => {
   countryDropdownOpen.value = false
 })
+
+const route = useRoute()
+const isHomePage = computed(() => {
+  const p = route.path.replace(/\/+$/, '')
+  return p === '' || p === '/en' || p === '/fr'
+})
 </script>
 
 <template>
-  <div class="bg-surface-100 border-b border-slate-200/80 text-xs text-slate-600 transition-colors">
+  <div
+    class="text-xs transition-colors z-50 relative"
+    :class="[
+      isHomePage
+        ? 'bg-slate-950/20 backdrop-blur-xs border-b border-white/10 text-slate-300'
+        : 'bg-surface-100 border-b border-slate-200/80 text-slate-600'
+    ]"
+  >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-9">
         
@@ -38,15 +51,36 @@ onClickOutside(dropdownRef, () => {
             <button
               @click="countryDropdownOpen = !countryDropdownOpen"
               type="button"
-              class="inline-flex items-center space-x-2 py-1 px-2.5 rounded-lg bg-white border border-slate-200 hover:border-brand-green-400 hover:bg-slate-50 transition-all font-medium text-slate-800 shadow-xs"
+              class="inline-flex items-center space-x-2 py-1 px-2.5 rounded-lg border transition-all font-medium shadow-xs"
+              :class="[
+                isHomePage
+                  ? 'bg-white/10 hover:bg-white/20 border-white/20 text-white'
+                  : 'bg-white border-slate-200 hover:border-brand-green-400 hover:bg-slate-50 text-slate-800'
+              ]"
               aria-label="Sélectionner la filiale"
             >
               <template v-if="currentBranch === 'togo'">
                 <FlagTogo class="w-4 h-2.5" />
-                <span class="text-xs font-semibold text-slate-800">Togo</span>
-                <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-brand-green-50 text-brand-green-700 font-semibold border border-brand-green-200 hidden sm:inline-block">Siège</span>
+                <span class="text-xs font-semibold">Togo</span>
+                <span
+                  class="text-[10px] px-1.5 py-0.5 rounded-full font-semibold border hidden sm:inline-block"
+                  :class="[
+                    isHomePage
+                      ? 'bg-brand-green-500/20 text-emerald-300 border-brand-green-400/30'
+                      : 'bg-brand-green-50 text-brand-green-700 border-brand-green-200'
+                  ]"
+                >
+                  Siège
+                </span>
               </template>
-              <Icon name="lucide:chevron-down" class="w-3.5 h-3.5 text-slate-400 transition-transform duration-200" :class="{ 'rotate-180': countryDropdownOpen }" />
+              <Icon
+                name="lucide:chevron-down"
+                class="w-3.5 h-3.5 transition-transform duration-200"
+                :class="[
+                  isHomePage ? 'text-slate-300' : 'text-slate-400',
+                  { 'rotate-180': countryDropdownOpen }
+                ]"
+              />
             </button>
 
             <!-- Dropdown Menu Pays -->
@@ -131,23 +165,38 @@ onClickOutside(dropdownRef, () => {
         <div class="flex items-center space-x-4">
           <!-- Coordonnées directes Lomé (Desktop) -->
           <div class="hidden lg:flex items-center space-x-4 text-xs">
-            <a href="tel:+22892405748" class="inline-flex items-center space-x-1 text-slate-600 hover:text-brand-green-600 transition-colors">
-              <Icon name="lucide:phone" class="w-3.5 h-3.5 text-brand-green-600" />
+            <a
+              href="tel:+22892405748"
+              class="inline-flex items-center space-x-1 transition-colors"
+              :class="isHomePage ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-brand-green-600'"
+            >
+              <Icon name="lucide:phone" class="w-3.5 h-3.5" :class="isHomePage ? 'text-emerald-400' : 'text-brand-green-600'" />
               <span>+228 92 40 57 48</span>
             </a>
-            <a href="mailto:info@ewaregroup.org" class="inline-flex items-center space-x-1 text-slate-600 hover:text-brand-green-600 transition-colors">
-              <Icon name="lucide:mail" class="w-3.5 h-3.5 text-brand-green-600" />
+            <a
+              href="mailto:info@ewaregroup.org"
+              class="inline-flex items-center space-x-1 transition-colors"
+              :class="isHomePage ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-brand-green-600'"
+            >
+              <Icon name="lucide:mail" class="w-3.5 h-3.5" :class="isHomePage ? 'text-emerald-400' : 'text-brand-green-600'" />
               <span>info@ewaregroup.org</span>
             </a>
           </div>
 
           <!-- Sélecteur de Langue SVG & Textuel (FR | EN) -->
-          <div class="flex items-center bg-white border border-slate-200 rounded-lg p-0.5 shadow-xs">
+          <div
+            class="flex items-center rounded-lg p-0.5 shadow-xs border transition-colors"
+            :class="isHomePage ? 'bg-white/10 border-white/20' : 'bg-white border-slate-200'"
+          >
             <button
               @click="setLocale('fr')"
               type="button"
-              class="px-2 py-0.5 rounded text-[11px] font-bold transition-colors"
-              :class="locale === 'fr' ? 'bg-brand-green-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'"
+              class="px-2 py-0.5 rounded text-[11px] font-bold transition-colors cursor-pointer"
+              :class="[
+                locale === 'fr'
+                  ? 'bg-brand-green-600 text-white shadow-xs'
+                  : isHomePage ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'
+              ]"
               aria-label="Français"
             >
               FR
@@ -155,8 +204,12 @@ onClickOutside(dropdownRef, () => {
             <button
               @click="setLocale('en')"
               type="button"
-              class="px-2 py-0.5 rounded text-[11px] font-bold transition-colors"
-              :class="locale === 'en' ? 'bg-brand-green-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'"
+              class="px-2 py-0.5 rounded text-[11px] font-bold transition-colors cursor-pointer"
+              :class="[
+                locale === 'en'
+                  ? 'bg-brand-green-600 text-white shadow-xs'
+                  : isHomePage ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'
+              ]"
               aria-label="English"
             >
               EN

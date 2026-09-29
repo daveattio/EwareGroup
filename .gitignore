@@ -29,6 +29,8 @@ cms/dist/
 cms/.tmp/
 cms/.cache/
 cms/build/
+cms/.strapi/
+cms/.strapi-updater.json
 cms/public/uploads/
 
 # Fichiers OS & IDE
