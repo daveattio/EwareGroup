@@ -1,7 +1,7 @@
 # ==========================================
-# 1. Étape de Build (Nuxt 3 Nitro / Node)
+# 1. Étape de Build (Nuxt 4 Nitro / Node 22)
 # ==========================================
-FROM node:20-alpine AS builder
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 
@@ -16,7 +16,7 @@ RUN npm run build
 # ==========================================
 # 2. Étape de Production (Ultra-Légère)
 # ==========================================
-FROM node:20-alpine AS runner
+FROM node:22-alpine AS runner
 
 WORKDIR /app
 
