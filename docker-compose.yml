@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  # -------------------------------------------------------------
+  # 1. Base de Données PostgreSQL (Données 100% Souveraines)
+  # -------------------------------------------------------------
+  db:
+    image: postgres:16-alpine
+    container_name: eware_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME:-strapi}
+      POSTGRES_USER: ${DATABASE_USERNAME:-strapi}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-strapi_password_secret}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - eware_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME:-strapi} -d ${DATABASE_NAME:-strapi}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # -------------------------------------------------------------
+  # 2. CMS Strapi (Backoffice Rédacteurs & API REST)
+  # -------------------------------------------------------------
+  cms:
+    build:
+      context: ./cms
+      dockerfile: Dockerfile
+    container_name: eware_strapi
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: db
+      DATABASE_PORT: 5432
+      DATABASE_NAME: ${DATABASE_NAME:-strapi}
+      DATABASE_USERNAME: ${DATABASE_USERNAME:-strapi}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-strapi_password_secret}
+      DATABASE_SSL: false
+      APP_KEYS: ${APP_KEYS:-toBeModified1,toBeModified2}
+      API_TOKEN_SALT: ${API_TOKEN_SALT:-tobemodifiedsalt}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET:-tobemodifiedadminjwt}
+      TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT:-tobemodifiedtransfer}
+      JWT_SECRET: ${JWT_SECRET:-tobemodifiedjwt}
+    volumes:
+      - strapi_uploads:/opt/app/public/uploads
+    ports:
+      - "1337:1337"
+    networks:
+      - eware_net
+
+  # -------------------------------------------------------------
+  # 3. Frontend Nuxt 3 (Site Vitrine Eware Group)
+  # -------------------------------------------------------------
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: eware_frontend
+    restart: unless-stopped
+    depends_on:
+      - cms
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 3000
+      NUXT_PUBLIC_STRAPI_URL: ${PUBLIC_STRAPI_URL:-http://localhost:1337}
+    ports:
+      - "3000:3000"
+    networks:
+      - eware_net
+
+volumes:
+  postgres_data:
+    name: eware_postgres_data
+  strapi_uploads:
+    name: eware_strapi_uploads
+
+networks:
+  eware_net:
+    name: eware_network
+    driver: bridge

@@ -1,0 +1,58 @@
+{
+  "topbar": {
+    "country_label": "Pays / Filiale",
+    "soon_badge": "Bientôt",
+    "call_us": "+228 92 40 57 48",
+    "email_us": "info{'@'}ewaregroup.org",
+    "apps_label": "Nos Applications",
+    "solsizer_tag": "Outil Solaire",
+    "mobility_tag": "VTC & Zem"
+  },
+  "nav": {
+    "group": "Le Groupe",
+    "solutions": "Nos Solutions",
+    "ecosystem": "Écosystème",
+    "realizations": "Réalisations",
+    "news": "Actualités",
+    "contact": "Contact & Devis",
+    "request_audit": "Demander un diagnostic"
+  },
+  "hero": {
+    "kicker": "Transition Énergétique & Ingénierie Panafricaine",
+    "title_start": "Bâtir les infrastructures durables et",
+    "title_highlight": "l'excellence technologique",
+    "title_end": "en Afrique.",
+    "subtitle": "Eware Group déploie des solutions d'ingénierie énergétique solaire et réseaux HT/BT, forme les talents d'élite avec EIMAT, et innove avec les plateformes SolSizer et Eware Mobility.",
+    "cta_solutions": "Découvrir nos solutions",
+    "cta_contact": "Parler à un expert",
+    "stat_solar": "Capacité Solaire & HT/BT",
+    "stat_presence": "Présence Régionale",
+    "stat_talents": "Talents Formés (EIMAT)",
+    "stat_apps": "Super-Apps & SaaS Tech"
+  },
+  "ecosystem": {
+    "badge": "Pôles d'Excellence",
+    "title": "Un écosystème synergique pour propulser l'Afrique",
+    "subtitle": "De l'ingénierie de terrain aux logiciels de pointe et à la formation continue.",
+    "eimat_title": "EIMAT Africa",
+    "eimat_desc": "École Internationale des Métiers d'Avenir et des Technologies. Formation technique certifiée en énergie et industrie.",
+    "solsizer_title": "SolSizer",
+    "solsizer_desc": "La plateforme de dimensionnement photovoltaïque et d'annuaire des professionnels solaires de référence en Afrique.",
+    "mobility_title": "Eware Mobility",
+    "mobility_desc": "Super-application de mobilité urbaine (Zémidjan, VTC, Routines) et immobilier sans frais cachés.",
+    "explore": "Découvrir la plateforme"
+  },
+  "branches": {
+    "togo_name": "Eware Togo",
+    "togo_status": "Siège & Hub Régional",
+    "benin_name": "Eware Bénin",
+    "benin_status": "Déploiement en cours",
+    "benin_modal_title": "Expansion au Bénin",
+    "benin_modal_desc": "Eware Group prépare activement l'implantation officielle de sa filiale à Cotonou et Porto-Novo. Les chantiers et services de mobilité y sont déjà en cours de préparation.",
+    "close": "Fermer"
+  },
+  "common": {
+    "learn_more": "En savoir plus",
+    "active": "Actif"
+  }
+}

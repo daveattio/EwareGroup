@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  body {
+    @apply bg-surface-50 text-slate-800 antialiased font-sans selection:bg-brand-gold-200 selection:text-brand-green-900;
+  }
+}
+
+@layer utilities {
+  /* Utilitaires fins pour SyndicTG like clean cards */
+  .clean-card {
+    @apply bg-white border border-slate-200/80 rounded-2xl shadow-card transition-all duration-300;
+  }
+  
+  .clean-card-hover {
+    @apply hover:border-brand-green-300 hover:shadow-hover hover:-translate-y-0.5;
+  }
+}

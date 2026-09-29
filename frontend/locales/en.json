@@ -1,0 +1,58 @@
+{
+  "topbar": {
+    "country_label": "Country / Subsidiary",
+    "soon_badge": "Soon",
+    "call_us": "+228 92 40 57 48",
+    "email_us": "info{'@'}ewaregroup.org",
+    "apps_label": "Our Apps",
+    "solsizer_tag": "Solar Tool",
+    "mobility_tag": "VTC & Zem"
+  },
+  "nav": {
+    "group": "The Group",
+    "solutions": "Our Solutions",
+    "ecosystem": "Ecosystem",
+    "realizations": "Projects",
+    "news": "News & Insights",
+    "contact": "Contact & Quote",
+    "request_audit": "Request an Audit"
+  },
+  "hero": {
+    "kicker": "Energy Transition & Pan-African Engineering",
+    "title_start": "Building sustainable infrastructure and",
+    "title_highlight": "technological excellence",
+    "title_end": "across Africa.",
+    "subtitle": "Eware Group deploys solar energy engineering and HV/LV networks, trains elite technical talents through EIMAT, and innovates with SolSizer and Eware Mobility platforms.",
+    "cta_solutions": "Explore our solutions",
+    "cta_contact": "Speak with an expert",
+    "stat_solar": "Solar & HV/LV Capacity",
+    "stat_presence": "Regional Footprint",
+    "stat_talents": "Talents Trained (EIMAT)",
+    "stat_apps": "Super-Apps & Tech SaaS"
+  },
+  "ecosystem": {
+    "badge": "Centers of Excellence",
+    "title": "A synergistic ecosystem powering Africa",
+    "subtitle": "From field industrial engineering to cutting-edge software and certified training.",
+    "eimat_title": "EIMAT Africa",
+    "eimat_desc": "International School of Emerging Careers & Technologies. Certified vocational training in energy and industry.",
+    "solsizer_title": "SolSizer",
+    "solsizer_desc": "Africa's premier solar PV sizing platform and certified installer directory.",
+    "mobility_title": "Eware Mobility",
+    "mobility_desc": "Urban mobility super-app (Zemidjan moto-taxi, VTC, Routines) and verified real estate with transparent pricing.",
+    "explore": "Explore platform"
+  },
+  "branches": {
+    "togo_name": "Eware Togo",
+    "togo_status": "HQ & Regional Hub",
+    "benin_name": "Eware Benin",
+    "benin_status": "Expansion in progress",
+    "benin_modal_title": "Expansion into Benin",
+    "benin_modal_desc": "Eware Group is actively preparing the official opening of its subsidiary in Cotonou and Porto-Novo. Industrial projects and mobility services are underway.",
+    "close": "Close"
+  },
+  "common": {
+    "learn_more": "Learn more",
+    "active": "Active"
+  }
+}
