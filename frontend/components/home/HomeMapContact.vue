@@ -247,6 +247,7 @@ const submitForm = async () => {
                 <option value="solaire">{{ $t('contact.opt_solar') }}</option>
                 <option value="reseaux">{{ $t('contact.opt_reseaux') }}</option>
                 <option value="industrie">{{ $t('contact.opt_industrie') }}</option>
+                <option value="informatique">{{ $t('contact.opt_informatique') }}</option>
                 <option value="eimat">{{ $t('contact.opt_eimat') }}</option>
                 <option value="solsizer">{{ $t('contact.opt_solsizer') }}</option>
                 <option value="autre">{{ $t('contact.opt_other') }}</option>

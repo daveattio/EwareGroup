@@ -7,7 +7,9 @@ const localePath = useLocalePath()
 
 const mobileMenuOpen = ref(false)
 const solutionsMenuOpen = ref(false)
+const mobileSolutionsOpen = ref(false)
 const ecosystemMenuOpen = ref(false)
+const mobileEcosystemOpen = ref(false)
 
 // Gestion du sélecteur de filiale
 const currentBranch = ref<'togo' | 'benin'>('togo')
@@ -101,7 +103,7 @@ const isHomePage = computed(() => {
 
             <div
               v-show="solutionsMenuOpen"
-              class="absolute left-0 mt-1 w-72 bg-white rounded-2xl shadow-hover border border-slate-200/80 p-2 z-50 transition-all duration-200"
+              class="absolute left-0 mt-1 w-80 bg-white rounded-2xl shadow-hover border border-slate-200/80 p-2 z-50 transition-all duration-200"
             >
               <NuxtLink
                 :to="localePath('/solutions/solaire')"
@@ -139,6 +141,19 @@ const isHomePage = computed(() => {
                 <div>
                   <div class="text-xs font-bold text-slate-900">{{ $t('nav.solutions_industrie_title') }}</div>
                   <div class="text-[11px] text-slate-500 mt-0.5">{{ $t('nav.solutions_industrie_desc') }}</div>
+                </div>
+              </NuxtLink>
+
+              <NuxtLink
+                :to="localePath('/solutions/informatique')"
+                class="flex items-start space-x-3 p-3 rounded-xl hover:bg-brand-green-50/60 transition-colors group"
+              >
+                <div class="w-9 h-9 rounded-lg bg-indigo-50 border border-indigo-200 flex items-center justify-center shrink-0 group-hover:bg-indigo-100">
+                  <Icon name="lucide:laptop" class="w-5 h-5 text-indigo-600" />
+                </div>
+                <div>
+                  <div class="text-xs font-bold text-slate-900">{{ $t('nav.solutions_informatique_title') }}</div>
+                  <div class="text-[11px] text-slate-500 mt-0.5">{{ $t('nav.solutions_informatique_desc') }}</div>
                 </div>
               </NuxtLink>
             </div>
@@ -425,10 +440,94 @@ const isHomePage = computed(() => {
       <!-- Links List -->
       <div class="flex flex-col space-y-2 text-sm font-semibold text-slate-800">
         <NuxtLink :to="localePath('/')" class="p-2.5 rounded-xl hover:bg-slate-50">{{ $t('nav.home') }}</NuxtLink>
-        <NuxtLink :to="localePath('/solutions/solaire')" class="p-2.5 rounded-xl hover:bg-slate-50 flex items-center justify-between">
-          <span>{{ $t('nav.solutions') }}</span>
-          <Icon name="lucide:chevron-right" class="w-4 h-4 text-slate-400" />
-        </NuxtLink>
+        <!-- Solutions Accordion -->
+        <div>
+          <button
+            @click="mobileSolutionsOpen = !mobileSolutionsOpen"
+            type="button"
+            class="w-full p-2.5 rounded-xl hover:bg-slate-50 flex items-center justify-between cursor-pointer"
+          >
+            <span>{{ $t('nav.solutions') }}</span>
+            <Icon
+              name="lucide:chevron-down"
+              class="w-4 h-4 text-slate-400 transition-transform duration-200"
+              :class="{ 'rotate-180': mobileSolutionsOpen }"
+            />
+          </button>
+          <div v-show="mobileSolutionsOpen" class="pl-3 pr-1 py-1 space-y-1 bg-surface-50 rounded-xl my-1 border border-slate-100 text-xs">
+            <NuxtLink :to="localePath('/solutions/solaire')" class="flex items-center space-x-2.5 p-2 rounded-lg hover:bg-white text-slate-700 font-medium">
+              <Icon name="lucide:sun" class="w-4 h-4 text-brand-gold-500 shrink-0" />
+              <span>{{ $t('nav.solutions_solar_title') }}</span>
+            </NuxtLink>
+            <NuxtLink :to="localePath('/solutions/reseaux-ht-bt')" class="flex items-center space-x-2.5 p-2 rounded-lg hover:bg-white text-slate-700 font-medium">
+              <Icon name="lucide:zap" class="w-4 h-4 text-brand-green-600 shrink-0" />
+              <span>{{ $t('nav.solutions_reseaux_title') }}</span>
+            </NuxtLink>
+            <NuxtLink :to="localePath('/solutions/industrie')" class="flex items-center space-x-2.5 p-2 rounded-lg hover:bg-white text-slate-700 font-medium">
+              <Icon name="lucide:settings" class="w-4 h-4 text-blue-600 shrink-0" />
+              <span>{{ $t('nav.solutions_industrie_title') }}</span>
+            </NuxtLink>
+            <NuxtLink :to="localePath('/solutions/informatique')" class="flex items-center space-x-2.5 p-2 rounded-lg hover:bg-white text-slate-700 font-medium">
+              <Icon name="lucide:laptop" class="w-4 h-4 text-indigo-600 shrink-0" />
+              <span>{{ $t('nav.solutions_informatique_title') }}</span>
+            </NuxtLink>
+          </div>
+        </div>
+
+        <!-- Écosystème Accordion -->
+        <div>
+          <button
+            @click="mobileEcosystemOpen = !mobileEcosystemOpen"
+            type="button"
+            class="w-full p-2.5 rounded-xl hover:bg-slate-50 flex items-center justify-between cursor-pointer"
+          >
+            <span>{{ $t('nav.ecosystem') }}</span>
+            <Icon
+              name="lucide:chevron-down"
+              class="w-4 h-4 text-slate-400 transition-transform duration-200"
+              :class="{ 'rotate-180': mobileEcosystemOpen }"
+            />
+          </button>
+          <div v-show="mobileEcosystemOpen" class="pl-3 pr-1 py-1 space-y-1 bg-surface-50 rounded-xl my-1 border border-slate-100 text-xs">
+            <a
+              href="https://solsizer.app"
+              target="_blank"
+              rel="noopener"
+              class="flex items-center justify-between p-2 rounded-lg hover:bg-white text-slate-700 font-medium"
+            >
+              <div class="flex items-center space-x-2.5">
+                <Icon name="lucide:calculator" class="w-4 h-4 text-brand-gold-500 shrink-0" />
+                <span>SolSizer</span>
+              </div>
+              <Icon name="lucide:external-link" class="w-3.5 h-3.5 text-slate-400" />
+            </a>
+            <a
+              href="https://eware-mobility.ewaregroup.org"
+              target="_blank"
+              rel="noopener"
+              class="flex items-center justify-between p-2 rounded-lg hover:bg-white text-slate-700 font-medium"
+            >
+              <div class="flex items-center space-x-2.5">
+                <Icon name="lucide:car" class="w-4 h-4 text-brand-green-600 shrink-0" />
+                <span>Eware Mobility</span>
+              </div>
+              <Icon name="lucide:external-link" class="w-3.5 h-3.5 text-slate-400" />
+            </a>
+            <a
+              href="https://eimatafrica.com"
+              target="_blank"
+              rel="noopener"
+              class="flex items-center justify-between p-2 rounded-lg hover:bg-white text-slate-700 font-medium"
+            >
+              <div class="flex items-center space-x-2.5">
+                <Icon name="lucide:store" class="w-4 h-4 text-slate-600 shrink-0" />
+                <span>EIMAT Africa</span>
+              </div>
+              <Icon name="lucide:external-link" class="w-3.5 h-3.5 text-slate-400" />
+            </a>
+          </div>
+        </div>
+
         <NuxtLink :to="localePath('/realisations')" class="p-2.5 rounded-xl hover:bg-slate-50">{{ $t('nav.realizations') }}</NuxtLink>
         <NuxtLink :to="localePath('/actualites')" class="p-2.5 rounded-xl hover:bg-slate-50">{{ $t('nav.news') }}</NuxtLink>
         <NuxtLink :to="localePath('/contact')" class="p-2.5 rounded-xl hover:bg-slate-50">{{ $t('nav.contact') }}</NuxtLink>
@@ -452,7 +551,7 @@ const isHomePage = computed(() => {
         </a>
       </div>
 
-      <!-- Ecosystem Apps in Mobile -->
+      <!-- Ecosystem Apps in Mobile (avec icônes calculatrice & voiture) -->
       <div class="pt-2 border-t border-slate-200 space-y-2">
         <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-2">{{ $t('nav.apps_partners') }}</div>
         <div class="grid grid-cols-2 gap-2">
@@ -460,18 +559,22 @@ const isHomePage = computed(() => {
             href="https://solsizer.app"
             target="_blank"
             rel="noopener"
-            class="flex items-center space-x-2 p-2.5 rounded-xl bg-amber-50/70 border border-amber-200 text-xs font-bold text-slate-900"
+            class="flex items-center space-x-2.5 p-2.5 rounded-xl bg-amber-50/80 border border-amber-200 text-xs font-bold text-slate-900 hover:bg-amber-100/80 transition-colors"
           >
-            <span class="w-2 h-2 rounded-full bg-brand-gold-500"></span>
+            <div class="w-6 h-6 rounded-lg bg-amber-100 flex items-center justify-center shrink-0">
+              <Icon name="lucide:calculator" class="w-3.5 h-3.5 text-amber-700" />
+            </div>
             <span>SolSizer</span>
           </a>
           <a
             href="https://eware-mobility.ewaregroup.org"
             target="_blank"
             rel="noopener"
-            class="flex items-center space-x-2 p-2.5 rounded-xl bg-emerald-50/70 border border-emerald-200 text-xs font-bold text-slate-900"
+            class="flex items-center space-x-2.5 p-2.5 rounded-xl bg-emerald-50/80 border border-emerald-200 text-xs font-bold text-slate-900 hover:bg-emerald-100/80 transition-colors"
           >
-            <span class="w-2 h-2 rounded-full bg-brand-green-600"></span>
+            <div class="w-6 h-6 rounded-lg bg-emerald-100 flex items-center justify-center shrink-0">
+              <Icon name="lucide:car" class="w-3.5 h-3.5 text-emerald-700" />
+            </div>
             <span>Mobility</span>
           </a>
         </div>

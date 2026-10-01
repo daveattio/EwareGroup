@@ -91,6 +91,7 @@ const socialNetworks = [
             <li><NuxtLink :to="localePath('/solutions/solaire')" class="hover:text-brand-green-600 transition-colors">{{ $t('footer.sol_solar') }}</NuxtLink></li>
             <li><NuxtLink :to="localePath('/solutions/reseaux-ht-bt')" class="hover:text-brand-green-600 transition-colors">{{ $t('footer.sol_reseaux') }}</NuxtLink></li>
             <li><NuxtLink :to="localePath('/solutions/industrie')" class="hover:text-brand-green-600 transition-colors">{{ $t('footer.sol_industrie') }}</NuxtLink></li>
+            <li><NuxtLink :to="localePath('/solutions/informatique')" class="hover:text-brand-green-600 transition-colors">{{ $t('footer.sol_informatique') }}</NuxtLink></li>
             <li><NuxtLink :to="localePath('/realisations')" class="hover:text-brand-green-600 transition-colors">{{ $t('footer.sol_realizations') }}</NuxtLink></li>
           </ul>
         </div>
